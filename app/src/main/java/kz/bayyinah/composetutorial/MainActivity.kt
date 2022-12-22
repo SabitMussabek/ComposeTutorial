@@ -4,15 +4,18 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material3.Text
-import kz.bayyinah.composetutorial.ui.theme.ComposeTutorialTheme
+import androidx.compose.runtime.Composable
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            ComposeTutorialTheme {
-                Text("Hello!")
-            }
+            MessageCard(name = "Android")
         }
     }
+}
+
+@Composable
+fun MessageCard(name: String){
+    Text("Hello $name!")
 }
