@@ -4,7 +4,6 @@ import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
@@ -40,6 +39,8 @@ data class Message(val author: String, val body: String)
 
 @Composable
 fun MessageCard(msg: Message) {
+    var isExpanded by remember { mutableStateOf(false) }
+
     Row(modifier = Modifier.padding(8.dp)) {
         Image(
             painter = painterResource(id = R.drawable.big_panda),
@@ -52,13 +53,11 @@ fun MessageCard(msg: Message) {
         )
         Spacer(modifier = Modifier.width(8.dp))
 
-        var isExpanded by remember { mutableStateOf(false) }
-
-        val surfaceColor by animateColorAsState(targetValue = if (isExpanded) MaterialTheme.colors.primary else MaterialTheme.colors.surface)
-
-        Column(modifier = Modifier.clickable {
-            isExpanded = !isExpanded
-        }) {
+        Column(
+            modifier = Modifier.clickable {
+                isExpanded = !isExpanded
+            }
+        ) {
             Text(
                 text = msg.author,
                 color = MaterialTheme.colors.secondaryVariant,
@@ -70,9 +69,10 @@ fun MessageCard(msg: Message) {
             Surface(
                 shape = MaterialTheme.shapes.medium,
                 elevation = 1.dp,
-                color = surfaceColor,
-                modifier = Modifier.animateContentSize().padding(1.dp)
-                ) {
+                modifier = Modifier
+                    .animateContentSize()
+                    .padding(1.dp)
+            ) {
                 Text(
                     text = msg.body,
                     modifier = Modifier.padding(4.dp),
